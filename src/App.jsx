@@ -11,7 +11,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/pay" element={<PaymentForm />} />
+        <Route path="/" element={<PaymentForm />} />
         {/* <Route path="/success/:id" element={<SuccessPage />} />
         <Route path="/login" element={<Login setAuth={setAuthenticated} />} />
         <Route
