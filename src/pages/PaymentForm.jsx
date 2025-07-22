@@ -1,9 +1,15 @@
 import { useState } from "react";
 import SelectField from "../components/SelectField";
 import InputField from "../components/InputField";
+import ErrorAlert from "../components/ErrorAlert";
 import { paymentOptions } from "../utils/static";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function PaymentForm() {
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     buildingName: "",
     unitNumber: "",
@@ -11,14 +17,39 @@ export default function PaymentForm() {
     amount: "",
     paymentMethod: "",
   });
+  const [error, setError] = useState("");
 
   const handleChange = (field) => (value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
+
+    try {
+      const response = await axios.post(`${apiUrl}/payments`, {
+        building_name: formData.buildingName,
+        unit_number: formData.unitNumber,
+        tenant_name: formData.tenantName,
+        amount: formData.amount,
+        payment_method: formData.paymentMethod,
+      });
+      if (response.status !== 201) throw new Error("Failed to save payment");
+      else if (response.status === 201) {
+        navigate(`/success/${response.data.transaction_id}`, {
+          state: { ...formData, transactionId: response.data.transaction_id },
+        });
+      }
+    } catch (error) {
+      const err = error.response?.data?.message || error.message;
+      console.error(err);
+      setError(
+        err ||
+          "An error occurred while processing your payment. Please try again."
+      );
+    }
   };
 
   return (
@@ -33,6 +64,8 @@ export default function PaymentForm() {
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            {error && <ErrorAlert message={error} />}
+
             <InputField
               id="building-name"
               label="Building Name"

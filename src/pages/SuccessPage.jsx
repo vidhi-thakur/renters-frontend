@@ -1,6 +1,7 @@
 import { CheckCircle, Copy, Home, Receipt } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function TransactionIdSection({ transactionId }) {
   const [copied, setCopied] = useState(false);
@@ -85,11 +86,13 @@ function ActionButtons() {
   );
 }
 
-export default function SuccessPage({
-  transactionId = "iojiojgre657",
-  amount = "100.00",
-  tenantName = "John Doe",
-}) {
+export default function SuccessPage() {
+  const location = useLocation();
+  const { transactionId, tenantName, amount } = location.state || {
+    transactionId: "",
+    tenantName: "",
+    amount: "",
+  };
   const currentDate = new Date().toLocaleString("en-US", {
     year: "numeric",
     month: "long",
