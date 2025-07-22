@@ -59,7 +59,7 @@ export default function PaymentsTable({
                   <td className="px-6 py-4">{payment.building_name}</td>
                   <td className="px-6 py-4">{payment.unit_number}</td>
                   <td className="px-6 py-4">{payment.tenant_name}</td>
-                  <td className="px-6 py-4">${payment.amount.toFixed(2)}</td>
+                  <td className="px-6 py-4">${(+payment.amount).toFixed(2)}</td>
                   <td className="px-6 py-4">
                     <span
                       className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"
@@ -99,7 +99,7 @@ export default function PaymentsTable({
                       </label>
                     </div>
                   </td>
-                  <td className="text-sm text-gray-600">
+                  <td className="text-sm text-gray-600 px-6 py-4">
                     {formatDate(payment.created_at)}
                   </td>
                 </tr>

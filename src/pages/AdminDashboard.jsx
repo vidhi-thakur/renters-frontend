@@ -5,6 +5,7 @@ import { deleteCookie, getCookie, getUniqueBuildings } from "../utils/helpers";
 import { mockPayments } from "../utils/static";
 import FilterBar from "../components/FilterBar";
 import PaymentsTable from "../components/PaymentsTable";
+import axios from "axios";
 
 const Header = ({ filteredPayments, handleLogout }) => {
   return (
@@ -38,6 +39,8 @@ const Header = ({ filteredPayments, handleLogout }) => {
 };
 
 export default function AdminPage() {
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [payments, setPayments] = useState([]);
   const [filteredPayments, setFilteredPayments] = useState([]);
@@ -66,14 +69,25 @@ export default function AdminPage() {
     // API call to update payment verification status can be added here
   };
 
+  const fetchPayments = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/payments`);
+      if (response.status !== 200) throw new Error("Failed to fetch payments");
+      setPayments(response.data);
+      setFilteredPayments(response.data);
+    } catch (error) {
+      console.error("Failed to fetch payments:", error);
+      setPayments(mockPayments); // Fallback to mock data in case of error
+      setFilteredPayments(mockPayments);
+    }
+  };
+
   useEffect(() => {
     const token = getCookie("auth_token");
     const userRole = getCookie("user_role");
-
     if (token && userRole === "admin") {
       setIsAuthenticated(true);
-      setPayments(mockPayments);
-      setFilteredPayments(mockPayments);
+      fetchPayments();
     } else {
       navigate("/login");
     }
