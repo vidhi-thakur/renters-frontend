@@ -120,7 +120,7 @@ export default function LoginPage() {
       const token = generateToken();
       setCookie("auth_token", token);
       setCookie("user_role", "admin");
-      navigate("/admin");
+      navigate("/");
     } else {
       setError("Invalid username or password. Please try again.");
     }

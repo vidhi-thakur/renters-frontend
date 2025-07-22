@@ -6,7 +6,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import { useState } from "react";
 
 function App() {
-  const [authenticated, setAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState(true);
   console.log("Authenticated:", authenticated);
 
   return (
@@ -16,7 +16,7 @@ function App() {
         <Route path="/success/:id" element={<SuccessPage />} />
         <Route path="/login" element={<Login setAuth={setAuthenticated} />} />
         <Route
-          path="/admin"
+          path="/"
           element={
             authenticated ? <AdminDashboard /> : <Navigate to="/login" />
           }
