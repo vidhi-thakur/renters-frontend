@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
-import { Filter, LogOut, Search } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import {
-  deleteCookie,
-  formatDate,
-  formatPaymentMethod,
-  getCookie,
-  getUniqueBuildings,
-} from "../utils/helpers";
+import { deleteCookie, getCookie, getUniqueBuildings } from "../utils/helpers";
 import { mockPayments } from "../utils/static";
+import FilterBar from "../components/FilterBar";
+import PaymentsTable from "../components/PaymentsTable";
 
 const Header = ({ filteredPayments, handleLogout }) => {
   return (
@@ -36,251 +32,6 @@ const Header = ({ filteredPayments, handleLogout }) => {
             </button>
           </div>
         </div>
-      </div>
-    </div>
-  );
-};
-
-const FilterBar = ({ payments, filters, setFilters }) => {
-  return (
-    <div className="mb-6 mx-auto p-6 bg-white rounded-lg shadow-sm dark:bg-gray-800">
-      <div>
-        <h5 className="flex items-center gap-2 text-2xl font-bold text-gray-900 dark:text-white">
-          <Filter className="w-5 h-5" />
-          Filters
-        </h5>
-        <p className="text-gray-700 dark:text-gray-400">
-          Filter payments by building, date range, or search terms
-        </p>
-      </div>
-      <div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="space-y-2">
-            <label
-              className="block text-sm font-medium text-gray-900 dark:text-white"
-              htmlFor="search"
-            >
-              Search
-            </label>
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                id="search"
-                placeholder="Tenant, unit, or transaction ID"
-                value={filters.search}
-                onChange={(e) =>
-                  setFilters((prev) => ({
-                    ...prev,
-                    search: e.target.value,
-                  }))
-                }
-                className="pl-10 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <label
-              className="block text-sm font-medium text-gray-900 dark:text-white"
-              htmlFor="building"
-            >
-              Building
-            </label>
-            <select
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              value={filters.building}
-              onChange={(value) =>
-                setFilters((prev) => ({ ...prev, building: value }))
-              }
-              required
-              id="building"
-            >
-              <option value="">All buildings</option>
-              {getUniqueBuildings(payments).map((building) => (
-                <option key={building} value={building}>
-                  {building}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="space-y-2">
-            <label
-              className="block text-sm font-medium text-gray-900 dark:text-white"
-              htmlFor="date-from"
-            >
-              From Date
-            </label>
-            <input
-              className="w-full pl-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              id="date-from"
-              type="date"
-              value={filters.dateFrom}
-              onChange={(e) =>
-                setFilters((prev) => ({
-                  ...prev,
-                  dateFrom: e.target.value,
-                }))
-              }
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label
-              className="block text-sm font-medium text-gray-900 dark:text-white"
-              htmlFor="date-to"
-            >
-              To Date
-            </label>
-            <input
-              className="w-full pl-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              id="date-to"
-              type="date"
-              value={filters.dateTo}
-              onChange={(e) =>
-                setFilters((prev) => ({ ...prev, dateTo: e.target.value }))
-              }
-            />
-          </div>
-        </div>
-
-        <div className="flex gap-2 mt-4">
-          <button
-            className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-            onClick={() =>
-              setFilters({
-                building: "",
-                dateFrom: "",
-                dateTo: "",
-                search: "",
-              })
-            }
-          >
-            Clear Filters
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const PaymentsTable = ({
-  payments,
-  toggleVerified,
-  formatDate,
-  formatPaymentMethod,
-  filteredPayments,
-}) => {
-  return (
-    <div className="mx-auto p-6 bg-white rounded-lg shadow-sm dark:bg-gray-800">
-      <div>
-        <h5 className="text-2xl font-bold text-gray-900 dark:text-white">
-          Payment Records
-        </h5>
-        <p className="text-gray-700 dark:text-gray-400">
-          Showing {filteredPayments.length} of {payments.length} payments
-        </p>
-      </div>
-      <div>
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" className="px-6 py-3 w-16">
-                  S.No
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Building
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Unit
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Tenant Name
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Amount
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Payment Method
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Transaction ID
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Verified
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Created At
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredPayments.map((payment, index) => (
-                <tr
-                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
-                  key={payment.id}
-                >
-                  <td className="font-medium px-6 py-4">{index + 1}</td>
-                  <td className="px-6 py-4">{payment.building_name}</td>
-                  <td className="px-6 py-4">{payment.unit_number}</td>
-                  <td className="px-6 py-4">{payment.tenant_name}</td>
-                  <td className="px-6 py-4">${payment.amount.toFixed(2)}</td>
-                  <td className="px-6 py-4">
-                    <span
-                      className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"
-                      variant="outline"
-                    >
-                      {formatPaymentMethod(payment.payment_method)}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <code className="text-xs bg-gray-100 px-2 py-1 rounded">
-                      {payment.transaction_id}
-                    </code>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center space-x-2">
-                      <label className="inline-flex items-center me-5 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          value=""
-                          className="sr-only peer"
-                          checked={payment.verified}
-                          onChange={() => toggleVerified(payment.id)}
-                          aria-label={`Toggle verification for ${payment.tenant_name}`}
-                        />
-                        <div className="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600 dark:peer-checked:bg-green-600"></div>
-                        <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-                          <span
-                            className={`${
-                              payment.verified
-                                ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
-                                : " bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-400"
-                            }  text-xs font-medium me-2 px-2.5 py-0.5 rounded-full `}
-                          >
-                            {payment.verified ? "Verified" : "Pending"}
-                          </span>
-                        </span>
-                      </label>
-                    </div>
-                  </td>
-                  <td className="text-sm text-gray-600">
-                    {formatDate(payment.created_at)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {filteredPayments.length === 0 && (
-          <div className="text-center py-8">
-            <p className="text-gray-500">
-              No payments found matching your filters.
-            </p>
-          </div>
-        )}
       </div>
     </div>
   );
@@ -382,12 +133,11 @@ export default function AdminPage() {
           payments={payments}
           filters={filters}
           setFilters={setFilters}
+          building_options={getUniqueBuildings(payments)}
         />
         <PaymentsTable
           payments={payments}
           toggleVerified={toggleVerified}
-          formatDate={formatDate}
-          formatPaymentMethod={formatPaymentMethod}
           filteredPayments={filteredPayments}
         />
       </div>

@@ -15,7 +15,10 @@ export const formatPaymentMethod = (method) =>
     method.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
 
 export const getUniqueBuildings = (value) => {
-    return Array.from(new Set(value.map((p) => p.building_name)));
+    return Array.from(new Set(value.map((p) => p.building_name))).map((building) => ({
+        label: building,
+        value: building,
+    }));
 };
 
 export const generateToken = () =>

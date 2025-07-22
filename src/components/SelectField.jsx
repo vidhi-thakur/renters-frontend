@@ -1,4 +1,11 @@
-export default function SelectField({ id, label, options, value, onChange }) {
+export default function SelectField({
+  id,
+  label,
+  options,
+  value,
+  default_value,
+  onChange,
+}) {
   return (
     <div className="space-y-2">
       <label
@@ -14,7 +21,7 @@ export default function SelectField({ id, label, options, value, onChange }) {
         required
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
       >
-        <option value="">Select payment method</option>
+        <option value="">{default_value}</option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}

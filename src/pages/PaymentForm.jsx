@@ -72,6 +72,7 @@ export default function PaymentForm() {
               options={paymentOptions}
               value={formData.paymentMethod}
               onChange={handleChange("paymentMethod")}
+              default_value="Select payment method"
             />
             <button
               type="submit"
