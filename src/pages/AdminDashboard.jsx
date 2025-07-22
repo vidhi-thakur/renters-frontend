@@ -8,6 +8,7 @@ import {
   getCookie,
   getUniqueBuildings,
 } from "../utils/helpers";
+import { mockPayments } from "../utils/static";
 
 const Header = ({ filteredPayments, handleLogout }) => {
   return (
@@ -296,76 +297,6 @@ export default function AdminPage() {
     search: "",
   });
   const navigate = useNavigate();
-
-  // Mock payment data
-  const mockPayments = [
-    {
-      id: 1,
-      building_name: "Sunset Apartments",
-      unit_number: "101",
-      tenant_name: "John Smith",
-      amount: 1200.0,
-      payment_method: "credit-card",
-      transaction_id: "TXN-1704067200-ABC123DEF",
-      verified: true,
-      created_at: "2024-01-15T10:30:00Z",
-    },
-    {
-      id: 2,
-      building_name: "Oak Tower",
-      unit_number: "A-205",
-      tenant_name: "Sarah Johnson",
-      amount: 1500.5,
-      payment_method: "bank-transfer",
-      transaction_id: "TXN-1704153600-XYZ789GHI",
-      verified: false,
-      created_at: "2024-01-16T14:20:00Z",
-    },
-    {
-      id: 3,
-      building_name: "Sunset Apartments",
-      unit_number: "203",
-      tenant_name: "Michael Brown",
-      amount: 1100.0,
-      payment_method: "check",
-      transaction_id: "TXN-1704240000-JKL456MNO",
-      verified: true,
-      created_at: "2024-01-17T09:15:00Z",
-    },
-    {
-      id: 4,
-      building_name: "Pine Ridge",
-      unit_number: "B-12",
-      tenant_name: "Emily Davis",
-      amount: 1350.75,
-      payment_method: "online-payment",
-      transaction_id: "TXN-1704326400-PQR789STU",
-      verified: false,
-      created_at: "2024-01-18T16:45:00Z",
-    },
-    {
-      id: 5,
-      building_name: "Oak Tower",
-      unit_number: "C-301",
-      tenant_name: "David Wilson",
-      amount: 1800.0,
-      payment_method: "credit-card",
-      transaction_id: "TXN-1704412800-VWX123YZA",
-      verified: true,
-      created_at: "2024-01-19T11:30:00Z",
-    },
-    {
-      id: 6,
-      building_name: "Pine Ridge",
-      unit_number: "A-05",
-      tenant_name: "Lisa Anderson",
-      amount: 950.25,
-      payment_method: "cash",
-      transaction_id: "TXN-1704499200-BCD456EFG",
-      verified: false,
-      created_at: "2024-01-20T13:20:00Z",
-    },
-  ];
 
   const handleLogout = () => {
     deleteCookie("auth_token");

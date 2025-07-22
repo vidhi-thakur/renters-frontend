@@ -1,97 +1,10 @@
 import { useState } from "react";
-import { Eye, EyeOff, Lock, User } from "lucide-react";
+import { Lock, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
-// Constants and utilities
-const ADMIN_USERNAME = "admin";
-const ADMIN_PASSWORD = "admin123";
-
-const generateToken = () =>
-  `token_${Date.now()}_${Math.random().toString(36).substr(2, 16)}`;
-
-const setCookie = (name, value, days = 7) => {
-  const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
-  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Strict`;
-};
-
-// Reusable Components
-const ErrorAlert = ({ message }) => (
-  <div
-    className="flex items-center p-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
-    role="alert"
-  >
-    <svg
-      className="shrink-0 w-4 h-4 me-3"
-      fill="currentColor"
-      viewBox="0 0 20 20"
-    >
-      <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-    </svg>
-    <div>{message}</div>
-  </div>
-);
-
-// eslint-disable-next-line no-unused-vars
-const InputField = ({ id, label, icon: Icon, ...props }) => (
-  <div className="space-y-2">
-    <label
-      htmlFor={id}
-      className="block text-sm font-medium text-gray-900 dark:text-white"
-    >
-      {label}
-    </label>
-    <div className="relative">
-      <Icon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-      <input
-        id={id}
-        {...props}
-        className="w-full pl-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-      />
-    </div>
-  </div>
-);
-
-const PasswordField = ({
-  id,
-  label,
-  value,
-  onChange,
-  show,
-  toggleShow,
-  disabled,
-}) => (
-  <div className="space-y-2">
-    <label
-      htmlFor={id}
-      className="block text-sm font-medium text-gray-900 dark:text-white"
-    >
-      {label}
-    </label>
-    <div className="relative">
-      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-      <input
-        id={id}
-        type={show ? "text" : "password"}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        disabled={disabled}
-        placeholder="Enter password"
-        required
-        className="w-full pl-10 pr-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-      />
-      <span
-        className="absolute right-0 top-0 h-full px-3 grid place-items-center cursor-pointer"
-        onClick={toggleShow}
-      >
-        {show ? (
-          <EyeOff className="w-4 h-4 text-gray-400" />
-        ) : (
-          <Eye className="w-4 h-4 text-gray-400" />
-        )}
-      </span>
-    </div>
-  </div>
-);
+import InputField from "../components/InputField";
+import PasswordField from "../components/PasswordField";
+import { generateToken, setCookie } from "../utils/helpers";
+import { ADMIN_PASSWORD, ADMIN_USERNAME } from "../utils/static";
 
 // Main Component
 export default function LoginPage() {
@@ -154,7 +67,6 @@ export default function LoginPage() {
             value={formData.username}
             onChange={(e) => handleChange("username")(e.target.value)}
             disabled={isLoading}
-            required
           />
 
           <PasswordField

@@ -1,60 +1,7 @@
 import { useState } from "react";
-
-function InputField({
-  id,
-  label,
-  placeholder,
-  value,
-  onChange,
-  type = "text",
-}) {
-  return (
-    <div className="space-y-2">
-      <label
-        htmlFor={id}
-        className="block text-sm font-medium text-gray-900 dark:text-white"
-      >
-        {label}
-      </label>
-      <input
-        id={id}
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        required
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-      />
-    </div>
-  );
-}
-
-function SelectField({ id, label, options, value, onChange }) {
-  return (
-    <div className="space-y-2">
-      <label
-        htmlFor={id}
-        className="block text-sm font-medium text-gray-900 dark:text-white"
-      >
-        {label}
-      </label>
-      <select
-        id={id}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        required
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-      >
-        <option value="">Select payment method</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-}
+import SelectField from "../components/SelectField";
+import InputField from "../components/InputField";
+import { paymentOptions } from "../utils/static";
 
 export default function PaymentForm() {
   const [formData, setFormData] = useState({
@@ -74,15 +21,6 @@ export default function PaymentForm() {
     console.log("Form submitted:", formData);
   };
 
-  const paymentOptions = [
-    { value: "cash", label: "Cash" },
-    { value: "check", label: "Check" },
-    { value: "credit-card", label: "Credit Card" },
-    { value: "debit-card", label: "Debit Card" },
-    { value: "bank-transfer", label: "Bank Transfer" },
-    { value: "online-payment", label: "Online Payment" },
-  ];
-
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-md">
@@ -100,21 +38,24 @@ export default function PaymentForm() {
               label="Building Name"
               placeholder="Enter building name"
               value={formData.buildingName}
-              onChange={handleChange("buildingName")}
+              onChange={(e) => handleChange("buildingName")(e.target.value)}
+              icon={null}
             />
             <InputField
               id="unit-number"
               label="Unit Number"
               placeholder="e.g., 101, A-205"
               value={formData.unitNumber}
-              onChange={handleChange("unitNumber")}
+              onChange={(e) => handleChange("unitNumber")(e.target.value)}
+              icon={null}
             />
             <InputField
               id="tenant-name"
               label="Tenant Name"
               placeholder="Enter tenant full name"
               value={formData.tenantName}
-              onChange={handleChange("tenantName")}
+              onChange={(e) => handleChange("tenantName")(e.target.value)}
+              icon={null}
             />
             <InputField
               id="amount"
@@ -122,7 +63,8 @@ export default function PaymentForm() {
               placeholder="Enter amount in USD"
               type="number"
               value={formData.amount}
-              onChange={handleChange("amount")}
+              onChange={(e) => handleChange("amount")(e.target.value)}
+              icon={null}
             />
             <SelectField
               id="payment-method"
