@@ -58,15 +58,21 @@ export default function AdminPage() {
     navigate("/login");
   };
 
-  const toggleVerified = (paymentId) => {
+  const toggleVerified = async (paymentId, checked) => {
     setPayments((prev) =>
       prev.map((payment) =>
-        payment.id === paymentId
-          ? { ...payment, verified: !payment.verified }
-          : payment
+        payment.id === paymentId ? { ...payment, verified: checked } : payment
       )
     );
-    // API call to update payment verification status can be added here
+    try {
+      const response = await axios.patch(`${apiUrl}/payments`, {
+        verified: checked,
+        id: paymentId,
+      });
+      if (response.status !== 200) throw new Error("Failed to fetch payments");
+    } catch (error) {
+      console.error("Failed to verify payments:", error);
+    }
   };
 
   const fetchPayments = async () => {
