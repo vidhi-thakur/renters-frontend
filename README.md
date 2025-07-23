@@ -3,24 +3,6 @@
 A full-stack web app to accept rent payments and manage them via an admin dashboard.
 
 
-## 🔗 Live URLs
-
-| App        | URL                                 |
-|------------|--------------------------------------|
-| Frontend   | [link](https://renters-frontend.vercel.app/pay)     |
-| Backend API | [link](https://renters-backend.onrender.com/api/payments)    |
-
-
-
-## 🧱 Tech Stack
-
-- React (Vite), Tailwind CSS, React Router
-- Node.js, Express, MySQL
-- Axios, qrcode.react, JWT
-- dotenv for config management
-
-
-
 ## 📁 Backend Setup
 
 1. **Clone the backend repo**
@@ -143,3 +125,36 @@ Request Body:
 2. All payments are stored in a single payments table
 3. The `/pay` route is public; `/admin` is protected via token
 4. QR code for scan and pay option is deployed on `/` route, it redirects to `/pay` and prefills the input fields.
+
+
+## 🧱 Tech Stack
+
+- React (Vite), Tailwind CSS, React Router
+- Node.js, Express, MySQL
+- Axios, qrcode.react, JWT
+- dotenv for config management
+
+## 🔹 API Design
+
+- Follows a RESTful structure (POST, GET, PATCH)
+- All protected routes require a valid JWT token
+
+## 🔹 Authentication
+
+- Used JWT-based login 
+- Tokens stored in cookies and passed via Authorization header
+
+## 🔹 Database
+
+- A single payments table captures all required fields with clear data types
+- transaction_id is auto-generated for uniqueness and reference
+- Timestamps are auto-handled using created_at
+
+## 🔗 Live URLs
+
+| App        | URL                                 |
+|------------|--------------------------------------|
+| Frontend   | [link](https://renters-frontend.vercel.app/pay)     |
+| Backend API | [link](https://renters-backend.onrender.com/api/payments)    |
+
+
