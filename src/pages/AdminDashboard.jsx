@@ -75,7 +75,7 @@ export default function AdminPage({ loading }) {
   };
 
   const fetchPayments = async () => {
-    if (loading) return;
+    if (loading === null) return;
 
     try {
       const response = await axios.get(`${apiUrl}/payments`);
