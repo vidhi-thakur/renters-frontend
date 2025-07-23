@@ -38,7 +38,7 @@ const Header = ({ filteredPayments, handleLogout }) => {
   );
 };
 
-export default function AdminPage({ loading }) {
+export default function AdminPage({ loading, token }) {
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const [payments, setPayments] = useState([]);
@@ -64,10 +64,18 @@ export default function AdminPage({ loading }) {
       )
     );
     try {
-      const response = await axios.patch(`${apiUrl}/payments`, {
-        verified: checked,
-        id: paymentId,
-      });
+      const response = await axios.patch(
+        `${apiUrl}/payments`,
+        {
+          verified: checked,
+          id: paymentId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (response.status !== 200) throw new Error("Failed to fetch payments");
     } catch (error) {
       console.error("Failed to verify payments:", error);

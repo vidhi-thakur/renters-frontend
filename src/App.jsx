@@ -30,7 +30,7 @@ function App() {
             authenticated === false ? (
               <Navigate to="/login" />
             ) : (
-              <AdminDashboard loading={authenticated === null} />
+              <AdminDashboard loading={authenticated === null} token={token} />
             )
           }
         />
