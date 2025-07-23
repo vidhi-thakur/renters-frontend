@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SelectField from "../components/SelectField";
 import InputField from "../components/InputField";
 import ErrorAlert from "../components/ErrorAlert";
 import { paymentOptions } from "../utils/static";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function PaymentForm() {
   const apiUrl = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const [formData, setFormData] = useState({
     buildingName: "",
@@ -50,6 +51,16 @@ export default function PaymentForm() {
       );
     }
   };
+
+  useEffect(() => {
+    setFormData({
+      tenantName: searchParams.get("tenantName") || "",
+      unitNumber: searchParams.get("unitNumber") || "",
+      amount: searchParams.get("amount") || "",
+      paymentMethod: searchParams.get("paymentMethod").toLowerCase() || "",
+      buildingName: searchParams.get("buildingName") || "",
+    });
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">

@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import AdminDashboard from "./pages/AdminDashboard";
 import { useEffect, useState } from "react";
 import { getCookie } from "./utils/helpers";
+import Home from "./pages/Home";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(null); // null means loading
@@ -21,11 +22,12 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/pay" element={<PaymentForm />} />
         <Route path="/success/:id" element={<SuccessPage />} />
         <Route path="/login" element={<Login setAuth={setAuthenticated} />} />
         <Route
-          path="/"
+          path="/admin"
           element={
             authenticated === false ? (
               <Navigate to="/login" />
