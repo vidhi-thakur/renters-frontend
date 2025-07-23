@@ -21,9 +21,6 @@ export const getUniqueBuildings = (value) => {
     }));
 };
 
-export const generateToken = () =>
-    `token_${Date.now()}_${Math.random().toString(36).substr(2, 16)}`;
-
 export const setCookie = (name, value, days = 7) => {
     const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
     document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Strict`;

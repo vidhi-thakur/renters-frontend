@@ -3,8 +3,8 @@ import { Lock, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import InputField from "../components/InputField";
 import PasswordField from "../components/PasswordField";
-import { generateToken, setCookie } from "../utils/helpers";
-import { ADMIN_PASSWORD, ADMIN_USERNAME } from "../utils/static";
+import { setCookie } from "../utils/helpers";
+import axios from "axios";
 
 // Main Component
 export default function LoginPage({ setAuth }) {
@@ -23,23 +23,27 @@ export default function LoginPage({ setAuth }) {
     e.preventDefault();
     setError("");
     setIsLoading(true);
-
-    await new Promise((res) => setTimeout(res, 1000));
-
-    if (
-      formData.username === ADMIN_USERNAME &&
-      formData.password === ADMIN_PASSWORD
-    ) {
-      const token = generateToken();
-      setCookie("auth_token", token);
-      setCookie("user_role", "admin");
-      setAuth(true);
-      navigate("/");
-    } else {
-      setError("Invalid username or password. Please try again.");
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth`,
+        {
+          username: formData.username,
+          password: formData.password,
+        }
+      );
+      if (response.status === 200) {
+        const { user_token, user_role } = response.data.token;
+        setCookie("auth_token", user_token);
+        setCookie("user_role", user_role);
+        setAuth(true);
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setError("An error occurred while logging in. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   return (
