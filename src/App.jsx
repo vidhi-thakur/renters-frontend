@@ -11,7 +11,11 @@ function App() {
   const token = getCookie("auth_token");
   const userRole = getCookie("user_role");
   useEffect(() => {
-    setAuthenticated(token && userRole === "admin");
+    if (token && userRole === "admin") {
+      setAuthenticated(true);
+    } else {
+      setAuthenticated(false);
+    }
   }, []);
 
   return (

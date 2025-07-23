@@ -75,6 +75,8 @@ export default function AdminPage({ loading }) {
   };
 
   const fetchPayments = async () => {
+    if (loading) return;
+
     try {
       const response = await axios.get(`${apiUrl}/payments`);
       if (response.status !== 200) throw new Error("Failed to fetch payments");
