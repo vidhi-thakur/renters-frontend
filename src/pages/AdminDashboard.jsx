@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { deleteCookie, getCookie, getUniqueBuildings } from "../utils/helpers";
+import { deleteCookie, getUniqueBuildings } from "../utils/helpers";
 import { mockPayments } from "../utils/static";
 import FilterBar from "../components/FilterBar";
 import PaymentsTable from "../components/PaymentsTable";
@@ -38,10 +38,9 @@ const Header = ({ filteredPayments, handleLogout }) => {
   );
 };
 
-export default function AdminPage() {
+export default function AdminPage({ loading }) {
   const apiUrl = import.meta.env.VITE_API_URL;
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [payments, setPayments] = useState([]);
   const [filteredPayments, setFilteredPayments] = useState([]);
   const [filters, setFilters] = useState({
@@ -89,14 +88,7 @@ export default function AdminPage() {
   };
 
   useEffect(() => {
-    const token = getCookie("auth_token");
-    const userRole = getCookie("user_role");
-    if (token && userRole === "admin") {
-      setIsAuthenticated(true);
-      fetchPayments();
-    } else {
-      navigate("/login");
-    }
+    fetchPayments();
   }, []);
 
   useEffect(() => {
@@ -134,7 +126,7 @@ export default function AdminPage() {
     setFilteredPayments(filtered);
   }, [payments, filters]);
 
-  if (!isAuthenticated) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">

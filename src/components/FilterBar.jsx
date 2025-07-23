@@ -1,14 +1,8 @@
-import { useEffect } from "react";
 import InputField from "./InputField";
 import SelectField from "./SelectField";
 import { Filter, Search } from "lucide-react";
 
 export default function FilterBar({ building_options, filters, setFilters }) {
-  useEffect(() => {
-    // Log the building options to verify they are being passed correctly
-    console.log("Building options:", building_options);
-  }, [building_options]);
-
   return (
     <div className="mb-6 mx-auto p-6 bg-white rounded-lg shadow-sm dark:bg-gray-800">
       <div>

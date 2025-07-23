@@ -26,7 +26,6 @@ export default function PaymentForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
 
     try {
       const response = await axios.post(`${apiUrl}/payments`, {

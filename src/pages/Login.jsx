@@ -7,7 +7,7 @@ import { generateToken, setCookie } from "../utils/helpers";
 import { ADMIN_PASSWORD, ADMIN_USERNAME } from "../utils/static";
 
 // Main Component
-export default function LoginPage() {
+export default function LoginPage({ setAuth }) {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -33,6 +33,7 @@ export default function LoginPage() {
       const token = generateToken();
       setCookie("auth_token", token);
       setCookie("user_role", "admin");
+      setAuth(true);
       navigate("/");
     } else {
       setError("Invalid username or password. Please try again.");

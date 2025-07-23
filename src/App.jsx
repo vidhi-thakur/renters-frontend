@@ -3,11 +3,16 @@ import PaymentForm from "./pages/PaymentForm";
 import SuccessPage from "./pages/SuccessPage";
 import Login from "./pages/Login";
 import AdminDashboard from "./pages/AdminDashboard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getCookie } from "./utils/helpers";
 
 function App() {
-  const [authenticated, setAuthenticated] = useState(true);
-  console.log("Authenticated:", authenticated);
+  const [authenticated, setAuthenticated] = useState(null); // null means loading
+  const token = getCookie("auth_token");
+  const userRole = getCookie("user_role");
+  useEffect(() => {
+    setAuthenticated(token && userRole === "admin");
+  }, []);
 
   return (
     <BrowserRouter>
@@ -18,7 +23,11 @@ function App() {
         <Route
           path="/"
           element={
-            authenticated ? <AdminDashboard /> : <Navigate to="/login" />
+            authenticated === false ? (
+              <Navigate to="/login" />
+            ) : (
+              <AdminDashboard loading={authenticated === null} />
+            )
           }
         />
       </Routes>
