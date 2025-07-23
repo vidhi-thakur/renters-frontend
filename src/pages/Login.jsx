@@ -5,6 +5,7 @@ import InputField from "../components/InputField";
 import PasswordField from "../components/PasswordField";
 import { setCookie } from "../utils/helpers";
 import axios from "axios";
+import ErrorAlert from "../components/ErrorAlert";
 
 // Main Component
 export default function LoginPage({ setAuth }) {
@@ -32,7 +33,7 @@ export default function LoginPage({ setAuth }) {
         }
       );
       if (response.status === 200) {
-        const { user_token, user_role } = response.data.token;
+        const { user_token, user_role } = response.data;
         setCookie("auth_token", user_token);
         setCookie("user_role", user_role);
         setAuth(true);
