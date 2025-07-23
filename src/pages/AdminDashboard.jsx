@@ -99,7 +99,7 @@ export default function AdminPage({ loading, token }) {
 
   useEffect(() => {
     fetchPayments();
-  }, []);
+  }, [loading]);
 
   useEffect(() => {
     let filtered = payments;
