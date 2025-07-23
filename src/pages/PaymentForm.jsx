@@ -53,11 +53,12 @@ export default function PaymentForm() {
   };
 
   useEffect(() => {
+    if (!searchParams) return;
     setFormData({
       tenantName: searchParams.get("tenantName") || "",
       unitNumber: searchParams.get("unitNumber") || "",
       amount: searchParams.get("amount") || "",
-      paymentMethod: searchParams.get("paymentMethod").toLowerCase() || "",
+      paymentMethod: searchParams.get("paymentMethod")?.toLowerCase() || "",
       buildingName: searchParams.get("buildingName") || "",
     });
   }, [searchParams]);
