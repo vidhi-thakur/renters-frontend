@@ -126,6 +126,8 @@ Request Body:
 3. The `/pay` route is public; `/admin` is protected via token
 4. QR code for scan and pay option is deployed on `/` route, it redirects to `/pay` and prefills the input fields.
 
+> Note: The backend is deployed on Render. Since Render spins down inactive services, the first API call after a period of inactivity might be slow or fail initially. If that happens, retrying the request should work as the server wakes up.
+
 
 ## 🧱 Tech Stack
 
