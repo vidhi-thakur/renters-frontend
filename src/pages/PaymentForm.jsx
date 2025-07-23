@@ -33,7 +33,7 @@ export default function PaymentForm() {
         building_name: formData.buildingName,
         unit_number: formData.unitNumber,
         tenant_name: formData.tenantName,
-        amount: formData.amount,
+        amount: +formData.amount,
         payment_method: formData.paymentMethod,
       });
       if (response.status !== 201) throw new Error("Failed to save payment");
