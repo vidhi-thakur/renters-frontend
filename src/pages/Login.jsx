@@ -37,7 +37,7 @@ export default function LoginPage({ setAuth }) {
         setCookie("auth_token", user_token);
         setCookie("user_role", user_role);
         setAuth(true);
-        navigate("/");
+        navigate("/admin");
       }
     } catch (error) {
       console.error("Login error:", error);
