@@ -67,16 +67,9 @@ export const mockPayments = [
     },
 ];
 
-
-export const ADMIN_USERNAME = "admin";
-export const ADMIN_PASSWORD = "admin123";
-
-
 export const paymentOptions = [
     { value: "cash", label: "Cash" },
     { value: "check", label: "Check" },
-    { value: "credit-card", label: "Credit Card" },
-    { value: "debit-card", label: "Debit Card" },
-    { value: "bank-transfer", label: "Bank Transfer" },
-    { value: "online-payment", label: "Online Payment" },
+    { value: "card", label: "Card" },
+    { value: "upi", label: "UPI" },
 ];
