@@ -77,8 +77,9 @@ App will run on: http://localhost:5173
 ## 📡 API Endpoints
 
 1. `POST /api/payments`
-Submit a new payment
+Allows tenants to submit a new rent payment, which is then stored in the payments table in MySQL DB.
 
+Request Body:
 ```json
 {
   "building_name": "Tower A",
@@ -90,13 +91,14 @@ Submit a new payment
 ```
 
 2. `GET /api/payments`
-Get all payments
+Returns a list of all rent payments. This endpoint is used by the admin panel.
 
 
 3. `PATCH /api/payments/`
-Toggle payment verification status
+Allows the admin to toggle the "verified" status of a payment.
 Requires: Authorization: Bearer <JWT_TOKEN>
 
+Request Body:
 ```json
 {
   "id": "23",
@@ -105,11 +107,10 @@ Requires: Authorization: Bearer <JWT_TOKEN>
 ```
 
 4. `POST /api/auth`
-Authentication for admin
-Returns a JWT token
+Authenticates admin and returns a JWT token.
 
+Request Body:
 ```json
-
 {
   "username": "admin",
   "password": "admin123"
