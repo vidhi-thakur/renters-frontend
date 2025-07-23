@@ -65,10 +65,9 @@ export default function AdminPage({ loading, token }) {
     );
     try {
       const response = await axios.patch(
-        `${apiUrl}/payments`,
+        `${apiUrl}/payments/${paymentId}`,
         {
           verified: checked,
-          id: paymentId,
         },
         {
           headers: {
@@ -83,10 +82,14 @@ export default function AdminPage({ loading, token }) {
   };
 
   const fetchPayments = async () => {
-    if (loading) return;
+    if (loading || !token) return;
 
     try {
-      const response = await axios.get(`${apiUrl}/payments`);
+      const response = await axios.get(`${apiUrl}/payments`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (response.status !== 200) throw new Error("Failed to fetch payments");
       setPayments(response.data);
       setFilteredPayments(response.data);
@@ -99,7 +102,7 @@ export default function AdminPage({ loading, token }) {
 
   useEffect(() => {
     fetchPayments();
-  }, [loading]);
+  }, [loading, token]);
 
   useEffect(() => {
     let filtered = payments;
