@@ -2,35 +2,15 @@
 
 A full-stack web app to accept rent payments and manage them via an admin dashboard.
 
----
 
-## 🎯 Features
-
-### 💸 Tenant Payment Form
-- Public `/pay` route for tenants to submit rent
-- Fields: Building Name, Unit Number, Tenant Name, Amount, Payment Method
-- Generates a unique transaction ID
-- Displays a success screen with the transaction ID
-
-### 🛡 Admin Dashboard
-- Protected `/admin` route
-- Login with JWT on a public `/login` route (username/password)
-- View all payments in a table
-- Filter by date, building, etc.
-- Mark payments as "Verified"
-
-### QR code for sharing the payment URL
-
----
-
-## 🔗 Live URLs (if deployed)
+## 🔗 Live URLs
 
 | App        | URL                                 |
 |------------|--------------------------------------|
 | Frontend   | [link](https://renters-frontend.vercel.app/pay)     |
 | Backend API | [link](https://renters-backend.onrender.com/api/payments)    |
 
----
+
 
 ## 🧱 Tech Stack
 
@@ -39,7 +19,7 @@ A full-stack web app to accept rent payments and manage them via an admin dashbo
 - Axios, qrcode.react, JWT
 - dotenv for config management
 
----
+
 
 ## 📁 Backend Setup
 
@@ -67,7 +47,7 @@ JWT_SECRET=your_jwt_secret
 ```npm run dev```
 API will run on: http://localhost:5000
 
----
+
 
 ## 📁 Frontend Setup
 
@@ -91,3 +71,74 @@ VITE_API_BASE_URL=http://localhost:5000/api
 npm run dev
 ```
 App will run on: http://localhost:5173
+
+
+
+## 📡 API Endpoints
+
+1. `POST /api/payments`
+Submit a new payment
+
+```json
+{
+  "building_name": "Tower A",
+  "unit_number": "302",
+  "tenant_name": "John Doe",
+  "amount": 12000,
+  "payment_method": "UPI"
+}
+```
+
+2. `GET /api/payments`
+Get all payments
+
+
+3. `PATCH /api/payments/`
+Toggle payment verification status
+Requires: Authorization: Bearer <JWT_TOKEN>
+
+```json
+{
+  "id": "23",
+  "verified": true,
+}
+```
+
+4. `POST /api/auth`
+Authentication for admin
+Returns a JWT token
+
+```json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+```
+
+## 🎯 Features
+
+### 💸 Tenant Payment Form
+1. Public `/pay` route for tenants to submit rent
+2. Fields: Building Name, Unit Number, Tenant Name, Amount, Payment Method
+3. Generates a unique transaction ID
+4. Displays a success screen with the transaction ID
+
+### 🛡 Admin Dashboard
+1. Protected `/admin` route
+2. Login with JWT on a public `/login` route (username/password)
+3. View all payments in a table
+4. Filter by date, building, etc.
+5. Mark payments as "Verified"
+
+### ✅ Bonus Features Implemented
+1. JWT-based authentication
+2. Environment-based config with .env
+3. QR code for payment form
+5. Admin table filters (by date, building, verified)
+
+## 🚧 Assumptions & Notes
+1. Frontend and backend are deployed separately
+2. All payments are stored in a single payments table
+3. The `/pay` route is public; `/admin` is protected via token
+4. QR code for scan and pay option is deployed on `/` route, it redirects to `/pay` and prefills the input fields.
