@@ -84,6 +84,7 @@ export default function PaymentForm() {
               value={formData.buildingName}
               onChange={(e) => handleChange("buildingName")(e.target.value)}
               icon={null}
+              required
             />
             <InputField
               id="unit-number"
@@ -92,6 +93,7 @@ export default function PaymentForm() {
               value={formData.unitNumber}
               onChange={(e) => handleChange("unitNumber")(e.target.value)}
               icon={null}
+              required
             />
             <InputField
               id="tenant-name"
@@ -100,6 +102,7 @@ export default function PaymentForm() {
               value={formData.tenantName}
               onChange={(e) => handleChange("tenantName")(e.target.value)}
               icon={null}
+              required
             />
             <InputField
               id="amount"
@@ -109,6 +112,7 @@ export default function PaymentForm() {
               value={formData.amount}
               onChange={(e) => handleChange("amount")(e.target.value)}
               icon={null}
+              required
             />
             <SelectField
               id="payment-method"

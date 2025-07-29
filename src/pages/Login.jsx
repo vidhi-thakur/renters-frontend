@@ -73,6 +73,7 @@ export default function LoginPage({ setAuth }) {
             value={formData.username}
             onChange={(e) => handleChange("username")(e.target.value)}
             disabled={isLoading}
+            required
           />
 
           <PasswordField
@@ -83,6 +84,7 @@ export default function LoginPage({ setAuth }) {
             show={showPassword}
             toggleShow={() => setShowPassword(!showPassword)}
             disabled={isLoading}
+            required
           />
 
           <button
